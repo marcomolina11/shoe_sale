@@ -1,0 +1,22 @@
+<% if alert %>
+	<% alert.each do |message| %>
+		<p><%= message %></p>
+	<% end %>
+<% end %>
+<h3>Register</h3>
+<form action="/users/create" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<p>First Name: <input type="text" name="first_name"></p>
+	<p>Last Name: <input type="text" name="last_name"></p>
+	<p>Email: <input type="text" name="email"></p>
+	<p>Password: <input type="password" name="password"></p>
+	<p>Password Confirmation: <input type="password" name="password_confirmation"></p>
+	<p><input type="submit" value="Register"></p>
+</form>
+<h3>Log In</h3>
+<form action="/users/login" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<p>Email: <input type="text" name="email"></p>
+	<p>Password: <input type="password" name="password"></p>
+	<p><input type="submit" value="Log in"></p>
+</form>

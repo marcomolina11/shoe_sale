@@ -1,0 +1,81 @@
+<p><a href="/shoes">Go to All Products</a></p>
+<h1>Hi <%= @user.first_name %></h1>
+<% if notice %>
+	<p><%= notice %></p>
+<% end %>
+<% if alert %>
+	<% alert.each do |message| %>
+		<p><%= message %></p>
+	<% end %>
+<% end %>
+
+<h3>Sell Product:</h3>
+<form action="/products/create" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<p>Name: <input type="text" name="name"></p>
+	<p>Amount: <input type="text" name="amount"></p>
+	<p><input type="submit" value="Sell"></p>
+</form>
+
+<h4>Your Products that are not yet sold:</h4>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Posted</th>
+		<th>Amount</th>
+		<th>Action</th>
+	</tr>
+	<% @pending_products.each do |product| %>
+	<tr>
+		<td><%= product.name %></td>
+		<td><%= product.created_at %></td>
+		<td>$<%= product.amount %></td>
+		<td><a href="/products/<%= product.id %>" data-method='delete'>Remove</a></td>
+	</tr>
+	<% end %>
+</table>
+
+<h4>Sales:</h4>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Buyer</th>
+		<th>Amount</th>
+	</tr>
+	<% @my_sales.each do |sale| %>
+	<tr>
+		<td><%= sale.product.name %></td>
+		<td><%= sale.created_at %></td>
+		<td><%= sale.user.first_name %></td>
+		<td>$<%= sale.product.amount %></td>
+	</tr>
+	<% @total_sales += sale.product.amount %>
+	<% end %>
+	
+</table>
+<p><b>Total: $<%= @total_sales %></b></p>
+
+<h4>Purchases:</h4>
+<table>
+	<tr>
+		<th>Product</th>
+		<th>Date Bought</th>
+		<th>Seller</th>
+		<th>Amount</th>
+	</tr>
+	<% @my_purchases.each do |purchase| %>
+	<tr>
+		<td><%= purchase.product.name %></td>
+		<td><%= purchase.created_at %></td>
+		<td><%= purchase.product.user.first_name %></td>
+		<td>$<%= purchase.product.amount %></td>
+	</tr>
+	<% @total_purchases += purchase.product.amount %>
+	<% end %>
+</table>
+<p><b>Total: $<%= @total_purchases %></b></p>
+
+
+
+
